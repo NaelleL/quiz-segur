@@ -322,7 +322,6 @@
         }
       }
 
-      /* Leaderboard */
       #leaderboard {
         display: none;
         text-align: left;
@@ -725,13 +724,7 @@
       </div>
 
       <div class="step">
-        <input type="text" name="entry.55544533" placeholder="Étude" required />
-        <input
-          type="text"
-          name="entry.479301265"
-          placeholder="Ville"
-          required
-        />
+        <input type="text" name="entry.55544533" placeholder="Mail" required />
         <button type="button" class="nav-btn" onclick="nextStep()">
           Commencer le quiz
         </button>
@@ -1398,8 +1391,7 @@
           i === 0 ? "first" : i === 1 ? "second" : i === 2 ? "third" : ""
         }">
           <span class="rank">${i + 1}</span>
-          <span class="name">${entry.Prénom} ${entry.Nom} - ${entry.Étude} ${
-              entry.Ville
+          <span class="name">${entry.Prénom} ${entry.Nom}
             }</span>
           <span class="score">${entry.Score}/17</span>
         </div>
