@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Quiz SEGUR 🎉</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(135deg, #f5f7fa, #e3eeff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+        padding: 1rem;
+        color: #1f2937;
+      }
+
+      form,
+      #leaderboard {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 2rem;
+        border-radius: 1.5rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1),
+          0 0 0 1px rgba(255, 255, 255, 0.1);
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+      }
+
+      h1 {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #2563eb;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      h1::after {
+        content: "";
+        display: block;
+        width: 60px;
+        height: 4px;
+        background: #3b82f6;
+        margin: 0.5rem auto 0;
+        border-radius: 2px;
+      }
+
+      input[type="text"] {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1.5rem;
+        border: 2px solid #e5e7eb;
+        border-radius: 1rem;
+        font-size: 1.1rem;
+        outline: none;
+        box-sizing: border-box;
+        transition: all 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+      }
+
+      label {
+        display: block;
+        background: #f8fafc;
+        border: 2px solid #e5e7eb;
+        border-radius: 1rem;
+        padding: 1rem 1.2rem;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+        position: relative;
+        overflow: hidden;
+      }
+
+      label:hover {
+        background: #f1f5f9;
+        border-color: #d1d5db;
+        transform: translateY(-1px);
+      }
+
+      label:active {
+        transform: translateY(0);
+      }
+
+      input[type="radio"] {
+        accent-color: #3b82f6;
+        margin-right: 1rem;
+        transform: scale(1.2);
+      }
+
+      .nav-btn {
+        width: 100%;
+        padding: 1rem 1.5rem;
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: white;
+        border: none;
+        border-radius: 1rem;
+        font-weight: 600;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .nav-btn:hover {
+        background: linear-gradient(135deg, #2563eb, #1d4ed8);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+      }
+
+      .nav-btn:active {
+        transform: translateY(0);
+      }
+
+      .progress-container {
+        background: #e5e7eb;
+        border-radius: 1rem;
+        overflow: hidden;
+        height: 0.8rem;
+        margin: 2rem 0;
+        position: relative;
+      }
+
+      .progress-bar {
+        height: 100%;
+        background: linear-gradient(90deg, #3b82f6, #2563eb);
+        transition: width 0.5s ease;
+        border-radius: 1rem;
+      }
+
+      .feedback {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        border-radius: 1rem;
+        font-weight: 600;
+        animation: fadeIn 0.3s ease;
+      }
+
+      .feedback.correct {
+        background: #ecfdf5;
+        color: #059669;
+        border: 1px solid #a7f3d0;
+      }
+
+      .feedback.wrong {
+        background: #fef2f2;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      #leaderboard h2 {
+        font-size: 2rem;
+        color: #2563eb;
+        margin-bottom: 2rem;
+        position: relative;
+      }
+
+      .player {
+        background: #f8fafc;
+        padding: 1.2rem;
+        margin: 1rem 0;
+        border-radius: 1rem;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+        border: 2px solid #e5e7eb;
+      }
+
+      .player:hover {
+        transform: translateX(5px);
+        border-color: #3b82f6;
+      }
+
+      .rank {
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: #3b82f6;
+        min-width: 3rem;
+      }
+
+      .name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        flex-grow: 1;
+        margin: 0 1rem;
+      }
+
+      .score {
+        background: #dbeafe;
+        color: #1d4ed8;
+        padding: 0.5rem 1rem;
+        border-radius: 0.8rem;
+        font-weight: 700;
+      }
+
+      .first {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-color: #fbbf24;
+      }
+
+      .second {
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border-color: #94a3b8;
+      }
+
+      .third {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        border-color: #fb923c;
+      }
+
+      img.header-img {
+        width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+      h1 {
+        margin-bottom: 1rem;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.8rem;
+        font-size: 1rem;
+        outline: none;
+      }
+      .progress-container {
+        background: #e5e7eb;
+        border-radius: 0.8rem;
+        overflow: hidden;
+        height: 1rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #3b82f6;
+        transition: width 0.3s;
+      }
+      .step,
+      .question {
+        display: none;
+        animation: fadeIn 0.4s ease;
+        text-align: left;
+      }
+      .active {
+        display: block;
+      }
+      label {
+        display: block;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.7rem;
+        padding: 0.7rem 1rem;
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+      }
+      input[type="radio"] {
+        accent-color: #3b82f6;
+        margin-right: 0.6rem;
+        transform: scale(1.15);
+      }
+      .nav-btn {
+        margin-top: 1rem;
+        padding: 0.8rem 1.2rem;
+        background: #3b82f6;
+        color: white;
+        border: none;
+        border-radius: 0.7rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .feedback {
+        margin-top: 1rem;
+        font-weight: 700;
+        display: none;
+      }
+      .feedback.correct {
+        color: #16a34a;
+      }
+      .feedback.wrong {
+        color: #dc2626;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Leaderboard */
+      #leaderboard {
+        display: none;
+        text-align: left;
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        border-radius: 1.25rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+
+      #leaderboard h2 {
+        text-align: center;
+        color: #dc2626;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+      }
+
+      .player {
+        padding: 1rem 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 1rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.1rem;
+        align-items: center;
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .player:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .rank {
+        font-weight: 800;
+        margin-right: 1rem;
+        color: #dc2626;
+        font-size: 1.2rem;
+        min-width: 2.5rem;
+      }
+
+      .name {
+        flex-grow: 1;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .score {
+        font-weight: 700;
+        color: #16a34a;
+        background: #ecfdf5;
+        padding: 0.5rem 1rem;
+        border-radius: 0.8rem;
+      }
+
+      .first {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        transform: scale(1.02);
+      }
+
+      .second {
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      }
+
+      .third {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+      }
+
+      .first .rank,
+      .second .rank,
+      .third .rank {
+        color: #1f2937;
+      }
+
+      .first .score {
+        background: #fffbeb;
+      }
+
+      .small {
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin-top: 1.5rem;
+        text-align: center;
+        font-style: italic;
+      }
+      img.header-img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        color: #1f2937;
+      }
+
+      h1 .first-letter {
+        color: #dc2626;
+      }
+
+      #leaderboard h2 {
+        color: #1f2937;
+      }
+
+      #leaderboard h2 .first-letter {
+        color: #dc2626;
+      }
+
+      h1 {
+        color: #dc2626;
+      }
+
+      h1::after {
+        background: #dc2626;
+      }
+
+      input[type="text"]:focus {
+        border-color: #dc2626;
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+      }
+
+      input[type="radio"] {
+        accent-color: #dc2626;
+      }
+
+      .nav-btn {
+        background: linear-gradient(135deg, #dc2626, #991b1b);
+      }
+
+      .nav-btn:hover {
+        background: linear-gradient(135deg, #991b1b, #7f1d1d);
+        box-shadow: 0 4px 12px rgba(220, 38, 38, 0.2);
+      }
+
+      .progress-bar {
+        background: linear-gradient(90deg, #dc2626, #991b1b);
+      }
+
+      #leaderboard h2 {
+        color: #dc2626;
+      }
+
+      .rank {
+        color: #dc2626;
+      }
+
+      .player:hover {
+        border-color: #dc2626;
+      }
+
+      .score {
+        background: #fef2f2;
+        color: #991b1b;
+      }
+
+      .first {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        border-color: #fbbf24;
+      }
+
+      .second {
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+        border-color: #94a3b8;
+      }
+
+      .third {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+        border-color: #fb923c;
+      }
+
+      img.header-img {
+        width: 100%;
+        max-height: 180px;
+        object-fit: contain;
+        margin-bottom: 2rem;
+        border-radius: 1rem;
+      }
+      h1 {
+        margin-bottom: 1rem;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 0.9rem 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid #d1d5db;
+        border-radius: 0.8rem;
+        font-size: 1rem;
+        outline: none;
+      }
+      .progress-container {
+        background: #e5e7eb;
+        border-radius: 0.8rem;
+        overflow: hidden;
+        height: 1rem;
+        margin-bottom: 1rem;
+        display: none;
+      }
+      .progress-bar {
+        height: 100%;
+        width: 0%;
+        background: #dc2626;
+        transition: width 0.3s;
+      }
+      .step,
+      .question {
+        display: none;
+        animation: fadeIn 0.4s ease;
+        text-align: left;
+      }
+      .active {
+        display: block;
+      }
+      label {
+        display: block;
+        background: #f9fafb;
+        border: 1px solid #e5e7eb;
+        border-radius: 0.7rem;
+        padding: 0.7rem 1rem;
+        margin-bottom: 0.6rem;
+        cursor: pointer;
+      }
+      input[type="radio"] {
+        accent-color: #dc2626;
+        margin-right: 0.6rem;
+        transform: scale(1.15);
+      }
+      .nav-btn {
+        margin-top: 1rem;
+        padding: 0.8rem 1.2rem;
+        background: #dc2626;
+        color: white;
+        border: none;
+        border-radius: 0.7rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .feedback {
+        margin-top: 1rem;
+        font-weight: 700;
+        display: none;
+      }
+      .feedback.correct {
+        color: #16a34a;
+      }
+      .feedback.wrong {
+        color: #dc2626;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(8px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Leaderboard */
+      #leaderboard {
+        display: none;
+        text-align: left;
+        background: linear-gradient(135deg, #ffffff, #f8f9fa);
+        border-radius: 1.25rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 2rem;
+      }
+
+      #leaderboard h2 {
+        text-align: center;
+        color: #dc2626;
+        margin-bottom: 1.5rem;
+        font-size: 1.8rem;
+      }
+
+      .player {
+        padding: 1rem 1.5rem;
+        margin: 0.8rem 0;
+        border-radius: 1rem;
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.1rem;
+        align-items: center;
+        background: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .player:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      }
+
+      .rank {
+        font-weight: 800;
+        margin-right: 1rem;
+        color: #dc2626;
+        font-size: 1.2rem;
+        min-width: 2.5rem;
+      }
+
+      .name {
+        flex-grow: 1;
+        font-weight: 600;
+        color: #1f2937;
+      }
+
+      .score {
+        font-weight: 700;
+        color: #16a34a;
+        background: #ecfdf5;
+        padding: 0.5rem 1rem;
+        border-radius: 0.8rem;
+      }
+
+      .first {
+        background: linear-gradient(135deg, #fef3c7, #fde68a);
+        transform: scale(1.02);
+      }
+
+      .second {
+        background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+      }
+
+      .third {
+        background: linear-gradient(135deg, #fff7ed, #fed7aa);
+      }
+
+      .first .rank,
+      .second .rank,
+      .third .rank {
+        color: #1f2937;
+      }
+
+      .first .score {
+        background: #fffbeb;
+      }
+
+      .small {
+        font-size: 0.9rem;
+        color: #6b7280;
+        margin-top: 1.5rem;
+        text-align: center;
+        font-style: italic;
+      }
+      img.header-img {
+        width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+        border-radius: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      /* Style pour les premières lettres */
+      h1 {
+        color: #1f2937;
+      }
+
+      h1 .first-letter {
+        color: #dc2626;
+      }
+
+      #leaderboard h2 {
+        color: #1f2937;
+      }
+
+      #leaderboard h2 .first-letter {
+        color: #dc2626;
+      }
+    </style>
+  </head>
+  <body>
+    <form
+      id="quiz"
+      action="https://docs.google.com/forms/d/e/1FAIpQLScH5LD6ruz4_rKVfOeQNx4GLXZnAQMK8Tc8q7luAsPfjpv4RA/formResponse"
+      method="POST"
+      target="hidden_iframe"
+      onsubmit="submitQuiz(); return false;"
+    >
+      <img
+        class="header-img"
+        src="./LOGO_SECONDAIRE_SEGUR_couleurs.jpg"
+        alt="Quiz SEGUR"
+      />
+      <h1><span class="first-letter">Q</span>uiz SEGUR</h1>
+
+      <div class="step active">
+        <input
+          type="text"
+          name="entry.2092238618"
+          placeholder="Prénom"
+          required
+        />
+        <input type="text" name="entry.924349470" placeholder="Nom" required />
+        <button type="button" class="nav-btn" onclick="nextStep()">
+          Suivant
+        </button>
+      </div>
+
+      <div class="step">
+        <input type="text" name="entry.55544533" placeholder="Étude" required />
+        <input
+          type="text"
+          name="entry.479301265"
+          placeholder="Ville"
+          required
+        />
+        <button type="button" class="nav-btn" onclick="nextStep()">
+          Commencer le quiz
+        </button>
+      </div>
+
+      <div class="progress-container">
+        <div class="progress-bar" id="progress-bar"></div>
+      </div>
+
+      <div class="question" data-correct="05/07/1974">
+        <p>
+          1) À quelle date, en France, la majorité passe de 21 ans à 18 ans ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.859215966"
+            value="05/07/1974"
+          />05/07/1974</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.859215966"
+            value="29/04/1945"
+          />29/04/1945</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.859215966"
+            value="15/06/1969"
+          />15/06/1969</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.859215966"
+            value="11/01/1975"
+          />11/01/1975</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Lionel Jospin">
+        <p>2) Qui était le Premier ministre lors de la création du PACS ?</p>
+        <label
+          ><input
+            type="radio"
+            name="entry.2110743170"
+            value="Edith Cresson"
+          />Edith Cresson</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110743170"
+            value="Edouard Balladur"
+          />Edouard Balladur</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110743170"
+            value="Lionel Jospin"
+          />Lionel Jospin</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110743170"
+            value="Laurent Fabius"
+          />Laurent Fabius</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="28/10/1997">
+        <p>
+          3) À quelle date a été suspendue l'obligation du service national ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.1324888729"
+            value="28/04/1991"
+          />28/04/1991</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1324888729"
+            value="17/05/1993"
+          />17/05/1993</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1324888729"
+            value="28/04/1995"
+          />28/04/1995</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1324888729"
+            value="28/10/1997"
+          />28/10/1997</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Article 310-3">
+        <p>
+          4) Selon le Code civil, quel article dispose que la filiation se
+          prouve par les actes de l'état civil ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.1066586905"
+            value="Article 311-1"
+          />Article 311-1</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1066586905"
+            value="Article 310-3"
+          />Article 310-3</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1066586905"
+            value="Article 34"
+          />Article 34</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1066586905"
+            value="Article 730"
+          />Article 730</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div
+        class="question"
+        data-correct="Tous"
+      >
+        <p>
+          5) Quels prénoms ont déjà été validés par l'état civil français ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.1592868410"
+            value="Gims et Winner"
+          />Gims et Winner</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1592868410"
+            value="Lovely et Prince"
+          />Lovely et Prince</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1592868410"
+            value="Panda et Paradis"
+          />Panda et Paradis</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.1592868410"
+            value="Tous"
+          />Tous</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Tous">
+        <p>
+          6) Quels prénoms ont déjà été refusés par l'état civil français ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.460633275"
+            value="Mini-Cooper et Fraise"
+          />Mini-Cooper et Fraise</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.460633275"
+            value="Nutella et 89"
+          />Nutella et 89</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.460633275"
+            value="Titeuf et Patriste"
+          />Titeuf et Patriste</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.460633275"
+            value="Tous"
+          />Tous</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Loi du 3 décembre 2001">
+        <p>7) Il n'est possible d'hériter que jusqu'au 6ᵉ degré depuis la :</p>
+        <label
+          ><input
+            type="radio"
+            name="entry.2110841025"
+            value="Loi du 3 décembre 2001"
+          />Loi du 3 décembre 2001</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110841025"
+            value="Loi du 31 décembre 2001"
+          />Loi du 31 décembre 2001</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110841025"
+            value="Loi du 1 janvier 2001"
+          />Loi du 1 janvier 2001</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2110841025"
+            value="Loi du 7 thermidor an IV"
+          />Loi du 7 thermidor an IV</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="12ᵉ">
+        <p>8) Dans le Code napoléonien, quel était le dernier degré successible ?</p>
+        <label
+          ><input type="radio" name="entry.390788681" value="8ᵉ" />8ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.390788681" value="10ᵉ" />10ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.390788681" value="12ᵉ" />12ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.390788681" value="14ᵉ" />14ᵉ</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Non article 775 code civil">
+        <p>
+          9) Une héritière, collatérale ordinaire, décède saisie de ses droits sans avoir opté. Elle laisse pour lui succéder trois descendants. Sont-ils obligés de s'entendre sur l'option successorale ?
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.2053329956"
+            value="Oui article 775 code civil"
+          />Oui article 775 code civil</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2053329956"
+            value="Non article 775 code civil"
+          />Non article 775 code civil</label
+        >
+        <label
+          ><input type="radio" name="entry.2053329956" value="Ça dépend" />Ça
+          dépend</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2053329956"
+            value="Le notaire tranche"
+          />Le notaire tranche</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="5ᵉ">
+        <p>
+          10) À quel degré se situent les enfants de votre cousin germain par
+          rapport à vous ?
+        </p>
+        <label
+          ><input type="radio" name="entry.953949608" value="5ᵉ" />5ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.953949608" value="4ᵉ" />4ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.953949608" value="6ᵉ" />6ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.953949608" value="7ᵉ" />7ᵉ</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="5ᵉ">
+        <p>
+          11) À quel degré se situent les cousins germains de votre mère par
+          rapport à vous ?
+        </p>
+        <label
+          ><input type="radio" name="entry.1175277903" value="4ᵉ" />4ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.1175277903" value="6ᵉ" />6ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.1175277903" value="7ᵉ" />7ᵉ</label
+        >
+        <label
+          ><input type="radio" name="entry.1175277903" value="5ᵉ" />5ᵉ</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div
+        class="question"
+        data-correct="L'oncle"
+      >
+        <p>
+          12) En tout et pour tout, un défunt a un oncle vivant et des cousins issus d'une tante prédécédée dans une unique ligne. Qui vient à la succession ?  
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.2026980413"
+            value="L'oncle et ses enfants"
+          />L'oncle et ses enfants</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2026980413"
+            value="L'oncle et les descendants de la tante"
+          />L'oncle et les descendants de la tante</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2026980413"
+            value="La tante de l'oncle"
+          />La tante de l'oncle</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.2026980413"
+            value="L'oncle"
+          />L'oncle</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Par souche puis par tête">
+        <p>
+          13) Comment se fait le partage dans une succession en ligne
+          collatérale privilégiée ? 
+        </p>
+        <label
+          ><input
+            type="radio"
+            name="entry.706634087"
+            value="Par tête puis par souche"
+          />Par tête puis par souche</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.706634087"
+            value="Par souche puis par tête"
+          />Par souche puis par tête</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.706634087"
+            value="D'abord les hommes ensuite les femmes"
+          />D'abord les hommes ensuite les femmes</label
+        >
+        <label
+          ><input
+            type="radio"
+            name="entry.706634087"
+            value="Selon un tirage au sort"
+          />Selon un tirage au sort</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Illimité">
+        <p>
+          14) Quel est le nombre maximum de prénoms pouvant être donnés à un enfant ?  
+        </p>
+        <label
+          ><input type="radio" name="entry.1737701638" value="4" />4</label
+        >
+        <label
+          ><input type="radio" name="entry.1737701638" value="7" />7</label
+        >
+        <label
+          ><input type="radio" name="entry.1737701638" value="10" />10</label
+        >
+        <label
+          ><input type="radio" name="entry.1737701638" value="Illimité" />Illimité</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Je me rends chez Segur pour identifier les héritiers dans la ligne paternelle">
+        <p>
+          15)La succession est ouverte par l'oncle maternel du de cujus :   
+        </p>
+        <label
+          ><input type="radio" name="entry.1674358607" value="Je fais confirmer qu'il est le seul oncle vivant" />Je lui fais attester sur l'honneur qu'il est le seul oncle vivant</label
+        >
+        <label
+          ><input type="radio" name="entry.1674358607" value="Je sollicite Segur pour trouver les descendants des autres oncles et tantes" />Je sollicite Segur pour trouver les descendants des autres oncles et tantes</label
+        >
+        <label
+          ><input type="radio" name="entry.1674358607" value="Je me rends chez Segur pour identifier les héritiers dans la ligne paternelle" />Je me rends chez Segur pour identifier les héritiers dans la ligne paternelle</label
+        >
+        <label
+          ><input type="radio" name="entry.1674358607" value="Je signe la notoriété les yeux fermés" />Je signe la notoriété les yeux fermés</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Choupette, son chat">
+        <p>
+          16)Parmi les personnes suivantes, qui a été désigné comme légataire dans la succession de Karl Lagerfeld ?   
+        </p>
+        <label
+          ><input type="radio" name="entry.88753001" value="Anna Wintour" />Anna Wintour</label
+        >
+        <label
+          ><input type="radio" name="entry.88753001" value="Choupette, son chat" />Choupette, son chat</label
+        >
+        <label
+          ><input type="radio" name="entry.88753001" value="David et Laura" />David et Laura</label
+        >
+        <label
+          ><input type="radio" name="entry.88753001" value="Jean-Paul Gaultier" />Jean-Paul Gaultier</label
+        >
+        <div class="feedback"></div>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">
+          Valider
+        </button>
+      </div>
+
+      <div class="question" data-correct="Guy de Maupassant">
+        <p>
+          17) Qui est l'auteur de L'Héritage, une nouvelle qui raconte la succession d'une vieille dame, provoquant disputes et cupidité dans sa famille ?
+        </p>
+        <label
+          ><input type="radio" name="entry.1091646412" value="Guy de Maupassant" />Guy de Maupassant</label
+        >
+        <label
+          ><input type="radio" name="entry.1091646412" value="Marcel Proust" />Marcel Proust</label
+        >
+        <label
+          ><input type="radio" name="entry.1091646412" value="Albert Camus" />Albert Camus</label
+        >
+        <label
+          ><input type="radio" name="entry.1091646412" value="Jules Verne" />Jules Verne</label
+        >
+        <div class="feedback"></div>
+        <button type="submit" class="nav-btn" onclick="checkAnswer(this)">Envoyer</button>
+      </div>
+
+      <input type="hidden" name="entry.1145985242" id="scoreField" value="0" />
+    </form>
+
+    <div id="leaderboard">
+      <img
+        class="header-img"
+        src="./LOGO_SECONDAIRE_SEGUR_couleurs.jpg"
+        alt="Quiz SEGUR"
+      />
+      <h2>🏆 <span class="first-letter">C</span>lassement Complet 🏆</h2>
+      <div id="results">Chargement…</div>
+    </div>
+
+    <iframe name="hidden_iframe" style="display: none"></iframe>
+
+    <script>
+      const SHEET_ID = "18qdMrsw8oT4VgSezruDlI1VB3RMCqs9KrK7yZA1QUes";
+      const TAB = "Réponses au formulaire 1";
+
+      let stepIndex = 0;
+      const steps = document.querySelectorAll(".step");
+      const questions = document.querySelectorAll(".question");
+      let currentQ = 0;
+      let score = 0;
+
+      const progressBar = document.getElementById("progress-bar");
+
+      function nextStep() {
+        const currentInput =
+          steps[stepIndex].querySelector('input[type="text"]');
+        if (!currentInput.value.trim()) {
+          alert("Ce champ est obligatoire !");
+          return;
+        }
+
+        steps[stepIndex].classList.remove("active");
+        stepIndex++;
+        if (stepIndex < steps.length) {
+          steps[stepIndex].classList.add("active");
+        } else {
+          questions[0].classList.add("active");
+          document.querySelector(".progress-container").style.display = "block";
+          updateProgress();
+        }
+      }
+
+      function updateProgress() {
+        const percent = (currentQ / questions.length) * 100;
+        progressBar.style.width = percent + "%";
+      }
+
+      function checkAnswer(btn) {
+        const q = questions[currentQ];
+        const correct = q.dataset.correct;
+        const sel = q.querySelector("input[type=radio]:checked");
+        const fb = q.querySelector(".feedback");
+        if (!sel) {
+          alert("Choisis une réponse !");
+          return;
+        }
+
+        if (sel.value.trim() === correct.trim()) {
+          fb.textContent = "✅ Bonne réponse !";
+          fb.className = "feedback correct";
+          score++;
+        } else {
+          fb.textContent = `❌ Mauvaise réponse ! La bonne réponse était : ${correct}`;
+          fb.className = "feedback wrong";
+        }
+
+        fb.style.display = "block";
+        btn.textContent = "Suivant";
+        btn.onclick = nextQuestion;
+      }
+
+      function nextQuestion() {
+        questions[currentQ].classList.remove("active");
+        currentQ++;
+        if (currentQ < questions.length) {
+          questions[currentQ].classList.add("active");
+          updateProgress();
+        } else {
+          progressBar.style.width = "100%";
+          submitQuiz();
+        }
+      }
+
+      function submitQuiz() {
+        document.getElementById("scoreField").value = score;
+        document.getElementById("quiz").submit();
+        showLeaderboard();
+      }
+
+      function showLeaderboard() {
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("leaderboard").style.display = "block";
+        const resultsEl = document.getElementById("results");
+        resultsEl.innerHTML = "Chargement…";
+
+        const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(
+          TAB
+        )}`;
+        fetch(url)
+          .then((res) => res.json())
+          .then((data) => {
+            renderLeaderboard(data, resultsEl);
+          })
+          .catch((err) => {
+            console.error("Erreur Opensheet:", err);
+            resultsEl.innerHTML = "❌ Erreur de chargement des scores.";
+          });
+      }
+
+      function renderLeaderboard(data, container) {
+        const sortedData = data.sort(
+          (a, b) => parseInt(b.Score) - parseInt(a.Score)
+        );
+        container.innerHTML = sortedData
+          .map(
+            (entry, i) => `
+        <div class="player ${
+          i === 0 ? "first" : i === 1 ? "second" : i === 2 ? "third" : ""
+        }">
+          <span class="rank">${i + 1}</span>
+          <span class="name">${entry.Prénom} ${entry.Nom} - ${entry.Étude} ${
+              entry.Ville
+            }</span>
+          <span class="score">${entry.Score}/17</span>
+        </div>
+      `
+          )
+          .join("");
+      }
+
+      function escapeHtml(s) {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            }[c])
+        );
+      }
+    </script>
+  </body>
+</html>
