@@ -677,7 +677,6 @@
         margin-bottom: 1rem;
       }
 
-      /* Style pour les premières lettres */
       h1 {
         color: #1f2937;
       }
@@ -1264,7 +1263,7 @@
           ><input type="radio" name="entry.1091646412" value="Jules Verne" />Jules Verne</label
         >
         <div class="feedback"></div>
-        <button type="submit" class="nav-btn" onclick="checkAnswer(this)">Envoyer</button>
+        <button type="button" class="nav-btn" onclick="checkAnswer(this)">Valider</button>
       </div>
 
       <input type="hidden" name="entry.1145985242" id="scoreField" value="0" />
@@ -1357,7 +1356,22 @@
       function submitQuiz() {
         document.getElementById("scoreField").value = score;
         document.getElementById("quiz").submit();
-        showLeaderboard();
+        setTimeout(() => {
+            showLeaderboard();
+            setTimeout(() => {
+                const resultsEl = document.getElementById("results");
+                const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(TAB)}`;
+                fetch(url)
+                    .then((res) => res.json())
+                    .then((data) => {
+                        renderLeaderboard(data, resultsEl);
+                    })
+                    .catch((err) => {
+                        console.error("Erreur Opensheet:", err);
+                        resultsEl.innerHTML = "❌ Erreur de chargement des scores.";
+                    });
+            }, 2000);
+        }, 1000);
       }
 
       function showLeaderboard() {
