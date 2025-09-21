@@ -1356,22 +1356,42 @@
       function submitQuiz() {
         document.getElementById("scoreField").value = score;
         document.getElementById("quiz").submit();
+      
+        document.getElementById("quiz").style.display = "none";
+        document.getElementById("leaderboard").style.display = "block";
+        const resultsEl = document.getElementById("results");
+        resultsEl.innerHTML = "Chargement...";
+        
+    
         setTimeout(() => {
-            showLeaderboard();
-            setTimeout(() => {
-                const resultsEl = document.getElementById("results");
-                const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(TAB)}`;
-                fetch(url)
-                    .then((res) => res.json())
-                    .then((data) => {
-                        renderLeaderboard(data, resultsEl);
-                    })
-                    .catch((err) => {
-                        console.error("Erreur Opensheet:", err);
-                        resultsEl.innerHTML = "❌ Erreur de chargement des scores.";
+            const url = `https://opensheet.elk.sh/${SHEET_ID}/${encodeURIComponent(TAB)}`;
+            fetch(url)
+                .then((res) => res.json())
+                .then((data) => {
+                    const prenom = document.querySelector('input[name="entry.2092238618"]').value;
+                    const nom = document.querySelector('input[name="entry.924349470"]').value;
+                    data.push({
+                        "Prénom": prenom,
+                        "Nom": nom, 
+                        "Score": score.toString()
                     });
-            }, 2000);
-        }, 1000);
+                    renderLeaderboard(data, resultsEl);
+                    setTimeout(() => {
+                        fetch(url)
+                            .then((res) => res.json())
+                            .then((updatedData) => {
+                                renderLeaderboard(updatedData, resultsEl);
+                            })
+                            .catch((err) => {
+                                console.error("Erreur Opensheet:", err);
+                            });
+                    }, 2000);
+                })
+                .catch((err) => {
+                    console.error("Erreur Opensheet:", err);
+                    resultsEl.innerHTML = "❌ Erreur de chargement des scores.";
+                });
+        }, 500);
       }
 
       function showLeaderboard() {
