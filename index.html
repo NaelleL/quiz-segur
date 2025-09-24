@@ -1415,23 +1415,29 @@
       }
 
       function renderLeaderboard(data, container) {
-        const sortedData = data.sort(
-          (a, b) => parseInt(b.Score) - parseInt(a.Score)
+        const sortedData = data.sort((a, b) => parseInt(b.Score) - parseInt(a.Score));
+        
+        const currentPrenom = document.querySelector('input[name="entry.2092238618"]').value;
+        const currentNom = document.querySelector('input[name="entry.924349470"]').value;
+        
+        const userIndex = sortedData.findIndex(entry => 
+            entry.Prénom.trim().toLowerCase() === currentPrenom.trim().toLowerCase() &&
+            entry.Nom.trim().toLowerCase() === currentNom.trim().toLowerCase()
         );
-        container.innerHTML = sortedData
-          .map(
-            (entry, i) => `
-        <div class="player ${
-          i === 0 ? "first" : i === 1 ? "second" : i === 2 ? "third" : ""
-        }">
-          <span class="rank">${i + 1}</span>
-          <span class="name">${entry.Prénom} ${entry.Nom}
-          </span>
-          <span class="score">${entry.Score}/17</span>
-        </div>
-      `
-          )
-          .join("");
+        
+        if (userIndex !== -1) {
+            const userEntry = sortedData[userIndex];
+            container.innerHTML = `
+                <div class="player ${userIndex === 0 ? 'first' : userIndex === 1 ? 'second' : userIndex === 2 ? 'third' : ''}">
+                    <span class="rank">${userIndex + 1}</span>
+                    <span class="name">${userEntry.Prénom} ${userEntry.Nom}</span>
+                    <span class="score">${userEntry.Score}/17</span>
+                </div>
+                <p class="small">Votre position dans le classement : ${userIndex + 1}${userIndex === 0 ? 'er' : 'ème'}</p>
+            `;
+        } else {
+            container.innerHTML = '<p class="small">Chargement de votre score...</p>';
+        }
       }
 
       function escapeHtml(s) {
