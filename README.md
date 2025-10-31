@@ -15,6 +15,7 @@ L’objectif : éviter une base de données tout en affichant le classement en t
 <p align="center">
   <img src="Images/GoogleSheets.png" alt="Google Sheets du quiz" width="500"/>
 </p>
+
 ## 💻 Interface
 Comme je voulais un rendu plus joli et en accord avec la direction artistique de l'étude, j’ai ensuite refait toute l’interface du quiz en HTML, CSS et JavaScript.
 
